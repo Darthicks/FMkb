@@ -200,7 +200,7 @@ resource "azurerm_container_group" "loader" {
 
   container {
     name   = "loader"
-    image  = "your-loader-image:latest"
+    image  = var.loader_image
     cpu    = "0.5"
     memory = "1.5"
 
@@ -232,7 +232,7 @@ resource "azurerm_container_group" "ui" {
 
   container {
     name   = "ui"
-    image  = "your-ui-image:latest"
+    image  = var.ui_image
     cpu    = "0.5"
     memory = "1.5"
 
@@ -264,7 +264,7 @@ resource "azurerm_container_group" "maintenance" {
 
   container {
     name   = "maintenance"
-    image  = "your-maintenance-image:latest"
+    image  = var.maintenance_image
     cpu    = "0.5"
     memory = "1.5"
 
@@ -296,7 +296,7 @@ resource "azurerm_container_group" "rest" {
 
   container {
     name   = "rest"
-    image  = "your-rest-image:latest"
+    image  = var.rest_image
     cpu    = "0.5"
     memory = "1.5"
 
@@ -319,39 +319,3 @@ resource "azurerm_container_group" "rest" {
   }
 }
 
-# Outputs for debugging
-output "vnet_name" {
-  value = azurerm_virtual_network.vnet.name
-}
-
-output "vm_name" {
-  value = azurerm_linux_virtual_machine.vm.name
-}
-
-output "nsg_name" {
-  value = azurerm_network_security_group.nsg.name
-}
-
-output "storage_account_name" {
-  value = azurerm_storage_account.storage_account.name
-}
-
-output "function_app_name" {
-  value = azurerm_function_app.function_app.name
-}
-
-output "loader_container_name" {
-  value = azurerm_container_group.loader.name
-}
-
-output "ui_container_name" {
-  value = azurerm_container_group.ui.name
-}
-
-output "maintenance_container_name" {
-  value = azurerm_container_group.maintenance.name
-}
-
-output "rest_container_name" {
-  value = azurerm_container_group.rest.name
-}
