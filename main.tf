@@ -97,8 +97,6 @@ resource "azurerm_linux_function_app" "function_app" {
     linux_fx_version = "JAVA"
   }
 }
-}
-
 
 resource "azurerm_container_group" "loader" {
   name                = "myLoader"
