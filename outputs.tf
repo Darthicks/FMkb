@@ -1,7 +1,7 @@
-output "vnet_name" {
+/*output "vnet_name" {
   value       = azurerm_virtual_network.vnet.name
   description = "Name of the virtual network"
-}
+}*/
 
 output "vm_name" {
   value       = azurerm_virtual_machine.vm.name
