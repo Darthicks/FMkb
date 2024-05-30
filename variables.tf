@@ -33,3 +33,11 @@ variable "maintenance_image" {
 variable "rest_image" {
   description = "The image for the REST container"
 }
+
+variable "subnet_name" {
+  description = "The name of the subnet"
+}
+
+variable "rg_name" {
+  description = "The name of the resource group"
+}
