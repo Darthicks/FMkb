@@ -102,7 +102,7 @@ resource "azurerm_container_group" "loader" {
 
   container {
     name   = "loader"
-    image  = var.loader_image
+    image  = "nginx:latest"
     cpu    = "0.5"
     memory = "1.5"
   }
@@ -124,7 +124,7 @@ resource "azurerm_container_group" "ui" {
 
   container {
     name   = "ui"
-    image  = var.ui_image
+    image  = "nginx:latest"
     cpu    = "0.5"
     memory = "1.5"
   }
@@ -146,7 +146,7 @@ resource "azurerm_container_group" "maintenance" {
 
   container {
     name   = "maintenance"
-    image  = var.maintenance_image
+    image  = "nginx:latest"
     cpu    = "0.5"
     memory = "1.5"
   }
@@ -168,7 +168,7 @@ resource "azurerm_container_group" "rest" {
 
   container {
     name   = "rest"
-    image  = var.rest_image
+    image  = "nginx:latest"
     cpu    = "0.5"
     memory = "1.5"
   }
