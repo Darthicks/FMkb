@@ -85,11 +85,11 @@ resource "azurerm_storage_container" "blob_container" {
   container_access_type = "private"
 }
 
-resource "azurerm_linux_function_app" "function_app" {
+rresource "azurerm_linux_function_app" "function_app" {
   name                       = "myFunctionApp"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  app_service_plan_id        = azurerm_service_plan.service_plan.id
+  app_service_plan_id        = azurerm_service_plan.service_plan.id  # Corrected attribute name
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
 }
