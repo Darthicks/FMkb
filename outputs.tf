@@ -8,11 +8,6 @@ output "vm_name" {
   description = "Name of the virtual machine"
 }
 
-output "nsg_name" {
-  value       = azurerm_network_security_group.nsg.name
-  description = "Name of the network security group"
-}
-
 output "storage_account_name" {
   value       = azurerm_storage_account.storage_account.name
   description = "Name of the storage account"
