@@ -18,7 +18,7 @@ resource "azurerm_virtual_network" "vnet" {
     address_prefix = "10.0.1.0/24"
   }
 }
-
+/*
 resource "azurerm_network_interface" "vm_nic" {
   name                = "myNIC"
   location            = azurerm_resource_group.rg.location
@@ -30,7 +30,7 @@ resource "azurerm_network_interface" "vm_nic" {
     private_ip_address_allocation = "Dynamic"
   }
 }
-
+*/
 resource "azurerm_virtual_machine" "vm" {
   name                  = "myVM"
   location              = azurerm_resource_group.rg.location
