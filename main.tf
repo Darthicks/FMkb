@@ -89,13 +89,11 @@ resource "azurerm_linux_function_app" "function_app" {
   name                       = "myFunctionApp"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  service_plan_id            = azurerm_service_plan.service_plan.id  # Use service_plan_id instead of app_service_plan_id
+  service_plan_id            = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
 
-  site_config {
-    linux_fx_version = "JAVA"
-  }
+  # Remove the linux_fx_version attribute from the site_config block
 }
 
 
