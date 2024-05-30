@@ -26,7 +26,7 @@ resource "azurerm_network_interface" "vm_nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = element(azurerm_virtual_network.vnet.subnet.*.id, 0)
+    subnet_id                     = azurerm_virtual_network.vnet.subnet[0].id
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -92,6 +92,10 @@ resource "azurerm_linux_function_app" "function_app" {
   service_plan_id            = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
+
+  site_config {
+    linux_fx_version = "JAVA|8"
+  }
 }
 
 resource "azurerm_container_group" "loader" {
@@ -102,17 +106,9 @@ resource "azurerm_container_group" "loader" {
 
   container {
     name   = "loader"
-    image  = "nginx:latest"
+    image  = var.loader_image
     cpu    = "0.5"
     memory = "1.5"
-  }
-
-  ip_address = {
-    type            = "Public"
-    ports = [{
-      protocol = "TCP"
-      port     = 80
-    }]
   }
 }
 
@@ -124,17 +120,9 @@ resource "azurerm_container_group" "ui" {
 
   container {
     name   = "ui"
-    image  = "nginx:latest"
+    image  = var.ui_image
     cpu    = "0.5"
     memory = "1.5"
-  }
-
-  ip_address = {
-    type            = "Public"
-    ports = [{
-      protocol = "TCP"
-      port     = 80
-    }]
   }
 }
 
@@ -146,17 +134,9 @@ resource "azurerm_container_group" "maintenance" {
 
   container {
     name   = "maintenance"
-    image  = "nginx:latest"
+    image  = var.maintenance_image
     cpu    = "0.5"
     memory = "1.5"
-  }
-
-  ip_address = {
-    type            = "Public"
-    ports = [{
-      protocol = "TCP"
-      port     = 80
-    }]
   }
 }
 
@@ -168,16 +148,8 @@ resource "azurerm_container_group" "rest" {
 
   container {
     name   = "rest"
-    image  = "nginx:latest"
+    image  = var.rest_image
     cpu    = "0.5"
     memory = "1.5"
-  }
-
-  ip_address = {
-    type            = "Public"
-    ports = [{
-      protocol = "TCP"
-      port     = 80
-    }]
   }
 }
