@@ -84,7 +84,7 @@ resource "azurerm_storage_container" "blob_container" {
   storage_account_name  = azurerm_storage_account.storage_account.name
   container_access_type = "private"
 }
-
+/*
 resource "azurerm_linux_function_app" "function_app" {
   name                       = "myFunctionApp"
   location                   = azurerm_resource_group.rg.location
@@ -96,7 +96,7 @@ resource "azurerm_linux_function_app" "function_app" {
   site_config {
     linux_fx_version = "JAVA|8"  # Add the appropriate runtime here
   }
-}
+}*/
 resource "azurerm_container_group" "loader" {
   name                = "myLoader"
   location            = azurerm_resource_group.rg.location
