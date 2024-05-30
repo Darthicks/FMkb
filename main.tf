@@ -89,18 +89,10 @@ resource "azurerm_linux_function_app" "function_app" {
   name                       = "myFunctionApp"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  app_service_plan_id        = azurerm_app_service_plan.service_plan.id
+  app_service_plan_id        = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
-
-  site_config {
-    # Add configuration settings here, such as runtime, app settings, etc.
-    linux_fx_version = "JAVA|8"
-  }
 }
-
-
-
 resource "azurerm_container_group" "loader" {
   name                = "myLoader"
   location            = azurerm_resource_group.rg.location
