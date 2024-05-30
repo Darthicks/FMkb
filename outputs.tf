@@ -12,7 +12,7 @@ output "storage_account_name" {
   value       = azurerm_storage_account.storage_account.name
   description = "Name of the storage account"
 }
-
+/*
 output "function_app_name" {
   value       = azurerm_linux_function_app.function_app.name
   description = "Name of the function app"
@@ -21,7 +21,7 @@ output "function_app_name" {
 output "function_app_url" {
   value       = azurerm_linux_function_app.function_app.default_hostname
   description = "URL of the function app"
-}
+}*/
 
 output "loader_container_name" {
   value       = azurerm_container_group.loader.name
