@@ -14,12 +14,12 @@ output "storage_account_name" {
 }
 
 output "function_app_name" {
-  value       = azurerm_function_app.function_app.name
+  value       = azurerm_linux_function_app.function_app.name
   description = "Name of the function app"
 }
 
 output "function_app_url" {
-  value       = azurerm_function_app.function_app.default_host_name
+  value       = azurerm_linux_function_app.function_app.default_hostname
   description = "URL of the function app"
 }
 
