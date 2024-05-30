@@ -4,7 +4,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "myResourceGroup"
-  location = "West Europe"
+  location = var.location
 }
 
 resource "azurerm_virtual_network" "vnet" {
@@ -67,10 +67,8 @@ resource "azurerm_service_plan" "service_plan" {
   name                = "myAppServicePlan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
+  os_type             = "Linux"
+  sku_name            = "S1"
 }
 
 resource "azurerm_storage_account" "storage_account" {
@@ -93,7 +91,7 @@ resource "azurerm_function_app" "function_app" {
   resource_group_name        = azurerm_resource_group.rg.name
   app_service_plan_id        = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
-  storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
+  storage_account_access_key = var.storage_account_access_key
 }
 
 resource "azurerm_container_group" "loader" {
@@ -104,12 +102,12 @@ resource "azurerm_container_group" "loader" {
 
   container {
     name   = "loader"
-    image  = "microsoft/aci-helloworld"
+    image  = var.loader_image
     cpu    = "0.5"
     memory = "1.5"
   }
 
-  ip_address {
+  ip_address = {
     ports = [
       {
         protocol = "TCP"
@@ -127,12 +125,12 @@ resource "azurerm_container_group" "ui" {
 
   container {
     name   = "ui"
-    image  = "microsoft/aci-helloworld"
+    image  = var.ui_image
     cpu    = "0.5"
     memory = "1.5"
   }
 
-  ip_address {
+  ip_address = {
     ports = [
       {
         protocol = "TCP"
@@ -150,12 +148,12 @@ resource "azurerm_container_group" "maintenance" {
 
   container {
     name   = "maintenance"
-    image  = "microsoft/aci-helloworld"
+    image  = var.maintenance_image
     cpu    = "0.5"
     memory = "1.5"
   }
 
-  ip_address {
+  ip_address = {
     ports = [
       {
         protocol = "TCP"
@@ -173,12 +171,12 @@ resource "azurerm_container_group" "rest" {
 
   container {
     name   = "rest"
-    image  = "microsoft/aci-helloworld"
+    image  = var.rest_image
     cpu    = "0.5"
     memory = "1.5"
   }
 
-  ip_address {
+  ip_address = {
     ports = [
       {
         protocol = "TCP"
