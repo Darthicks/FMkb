@@ -26,7 +26,8 @@ resource "azurerm_network_interface" "vm_nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_virtual_network.vnet.subnet[0].id
+    subnet_id = azurerm_virtual_network.vnet.subnet.id
+
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -92,11 +93,13 @@ resource "azurerm_linux_function_app" "function_app" {
   service_plan_id            = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
-
-  site_config {
-    linux_fx_version = "JAVA|8"
+  app_service_plan_id        = azurerm_app_service_plan.service_plan.id
+  app_settings = {
+    "FUNCTIONS_EXTENSION_VERSION" = "~8"
+    "FUNCTIONS_WORKER_RUNTIME"    = "java"
   }
 }
+
 
 resource "azurerm_container_group" "loader" {
   name                = "myLoader"
