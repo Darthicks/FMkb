@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "myResourceGroup"
+  name     = var.rg_name
   location = var.location
 }
 
@@ -14,7 +14,7 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
 
   subnet {
-    name           = "subnet1"
+    name           = var.subnet_name
     address_prefix = "10.0.1.0/24"
   }
 }
@@ -72,7 +72,7 @@ resource "azurerm_service_plan" "service_plan" {
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                     = "mystorageacct"
+  name                     = var.storage_account_name
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -85,11 +85,11 @@ resource "azurerm_storage_container" "blob_container" {
   container_access_type = "private"
 }
 
-resource "azurerm_function_app" "function_app" {
+resource "azurerm_linux_function_app" "function_app" {
   name                       = "myFunctionApp"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  app_service_plan_id        = azurerm_service_plan.service_plan.id
+  service_plan_id            = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
 }
@@ -108,12 +108,11 @@ resource "azurerm_container_group" "loader" {
   }
 
   ip_address = {
-    ports = [
-      {
-        protocol = "TCP"
-        port     = 80
-      }
-    ]
+    type            = "Public"
+    ports = [{
+      protocol = "TCP"
+      port     = 80
+    }]
   }
 }
 
@@ -131,12 +130,11 @@ resource "azurerm_container_group" "ui" {
   }
 
   ip_address = {
-    ports = [
-      {
-        protocol = "TCP"
-        port     = 80
-      }
-    ]
+    type            = "Public"
+    ports = [{
+      protocol = "TCP"
+      port     = 80
+    }]
   }
 }
 
@@ -154,12 +152,11 @@ resource "azurerm_container_group" "maintenance" {
   }
 
   ip_address = {
-    ports = [
-      {
-        protocol = "TCP"
-        port     = 80
-      }
-    ]
+    type            = "Public"
+    ports = [{
+      protocol = "TCP"
+      port     = 80
+    }]
   }
 }
 
@@ -177,11 +174,10 @@ resource "azurerm_container_group" "rest" {
   }
 
   ip_address = {
-    ports = [
-      {
-        protocol = "TCP"
-        port     = 80
-      }
-    ]
+    type            = "Public"
+    ports = [{
+      protocol = "TCP"
+      port     = 80
+    }]
   }
 }
