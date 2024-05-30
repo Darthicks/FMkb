@@ -85,7 +85,7 @@ resource "azurerm_storage_container" "blob_container" {
   container_access_type = "private"
 }
 
-rresource "azurerm_linux_function_app" "function_app" {
+resource "azurerm_linux_function_app" "function_app" {
   name                       = "myFunctionApp"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
