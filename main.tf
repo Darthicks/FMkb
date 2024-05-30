@@ -26,7 +26,7 @@ resource "azurerm_network_interface" "vm_nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_virtual_network.vnet.subnet[*].id
+    subnet_id = azurerm_virtual_network.vnet.subnet[0].id
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -80,7 +80,7 @@ resource "azurerm_storage_account" "storage_account" {
 }
 
 resource "azurerm_storage_container" "blob_container" {
-  name                  = "${var.blob_container_name}-${var.environment}"
+  name = "${lower(var.blob_container_name)}-${lower(var.environment)}"
   storage_account_name  = azurerm_storage_account.storage_account.name
   container_access_type = "private"
 }
