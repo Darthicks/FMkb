@@ -11,7 +11,9 @@ variable "location" {
 variable "random_number" {
   description = "Random number for resource naming"
   type        = string
+  default     = null
 }
+
 
 variable "rg_name" {
   description = "Name of the resource group"
