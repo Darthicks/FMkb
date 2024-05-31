@@ -1,7 +1,7 @@
 provider "azurerm" {
   features {}
+  version = "=2.81.0"  # Specify the desired version here
 }
-
 # Random number resource
 resource "random_string" "random" {
   length  = 5
