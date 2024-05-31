@@ -75,15 +75,6 @@ resource "azurerm_virtual_machine" "vm" {
   }
 }
 
-# Service Plan
-resource "azurerm_service_plan" "service_plan" {
-  name                = lower(format("fmkb_sp_%s_%s_%s", var.environment, random_string.random.result, var.location))
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  os_type             = "Linux"
-  sku_name            = "S1"
-}
-
 # Storage Account
 resource "azurerm_storage_account" "storage_account" {
   name                     = lower(format("fmkbsa%s%s", var.environment, random_string.random.result)) # Max length 24 characters
