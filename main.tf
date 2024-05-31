@@ -105,7 +105,7 @@ resource "azurerm_linux_function_app" "function_app" {
   name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  app_service_plan_id        = azurerm_service_plan.service_plan.id
+  app_service_plan_id        = azurerm_service_plan.service_plan.id  # Correct argument name
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
 
@@ -113,6 +113,7 @@ resource "azurerm_linux_function_app" "function_app" {
     linux_fx_version = "JAVA|8"  # Add the appropriate runtime here
   }
 }
+
 
 # Container Groups
 resource "azurerm_container_group" "loader" {
