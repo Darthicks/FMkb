@@ -33,3 +33,13 @@ variable "rest_image" {
   description = "The Docker image for the REST container"
   type        = string
 }
+
+variable "subnet_name" {
+  description = "The name of the subnet"
+  type        = string
+}
+
+variable "rg_name" {
+  description = "The name of the resource group"
+  type        = string
+}
