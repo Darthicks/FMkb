@@ -115,6 +115,7 @@ resource "azurerm_linux_function_app" "function_app" {
 }
 
 
+
 # Container Groups
 resource "azurerm_container_group" "loader" {
   name                = lower(format("fmkb_loader_%s_%s_%s", var.environment, random_string.random.result, var.location))
