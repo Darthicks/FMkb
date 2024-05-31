@@ -2,37 +2,48 @@ provider "azurerm" {
   features {}
 }
 
+# Random number resource
+resource "random_string" "random" {
+  length  = 5
+  special = false
+  upper   = false
+}
+
+# Resource Group
 resource "azurerm_resource_group" "rg" {
-  name     = var.rg_name
+  name     = lower(format("fmkb_rg_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location = var.location
 }
 
+# Virtual Network
 resource "azurerm_virtual_network" "vnet" {
-  name                = "myVNet"
+  name                = lower(format("fmkb_vnet_%s_%s_%s", var.environment, random_string.random.result, var.location))
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   subnet {
-    name           = var.subnet_name
+    name           = lower(format("fmkb_subnet_%s_%s_%s", var.environment, random_string.random.result, var.location))
     address_prefix = "10.0.1.0/24"
   }
 }
 
+# Network Interface
 resource "azurerm_network_interface" "vm_nic" {
-  name                = "myNIC"
+  name                = lower(format("fmkb_nic_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id = element(azurerm_virtual_network.vnet.subnet[*].id, 0)
+    subnet_id                     = azurerm_virtual_network.vnet.subnet[0].id
     private_ip_address_allocation = "Dynamic"
   }
 }
 
+# Virtual Machine
 resource "azurerm_virtual_machine" "vm" {
-  name                  = "myVM"
+  name                  = lower(format("fmkb_vm_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.vm_nic.id]
@@ -49,7 +60,7 @@ resource "azurerm_virtual_machine" "vm" {
   }
 
   storage_os_disk {
-    name              = "myOSDisk"
+    name              = lower(format("fmkb_osdisk_%s_%s_%s", var.environment, random_string.random.result, var.location))
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -63,30 +74,34 @@ resource "azurerm_virtual_machine" "vm" {
   }
 }
 
+# Service Plan
 resource "azurerm_service_plan" "service_plan" {
-  name                = "myAppServicePlan"
+  name                = lower(format("fmkb_sp_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
   sku_name            = "S1"
 }
 
+# Storage Account
 resource "azurerm_storage_account" "storage_account" {
-  name                     = var.storage_account_name
+  name                     = lower(format("fmkbsa%s%s", var.environment, random_string.random.result)) # Max length 24 characters
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
+# Storage Container
 resource "azurerm_storage_container" "blob_container" {
-  name = "${lower(var.blob_container_name)}-${lower(var.environment)}"
+  name                  = lower(format("fmkb_blob_%s_%s_%s", var.environment, random_string.random.result, var.location))
   storage_account_name  = azurerm_storage_account.storage_account.name
   container_access_type = "private"
 }
-/*
+
+# Function App
 resource "azurerm_linux_function_app" "function_app" {
-  name                       = "myFunctionApp"
+  name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
   app_service_plan_id        = azurerm_service_plan.service_plan.id
@@ -96,9 +111,11 @@ resource "azurerm_linux_function_app" "function_app" {
   site_config {
     linux_fx_version = "JAVA|8"  # Add the appropriate runtime here
   }
-}*/
+}
+
+# Container Groups
 resource "azurerm_container_group" "loader" {
-  name                = "myLoader"
+  name                = lower(format("fmkb_loader_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
@@ -112,7 +129,7 @@ resource "azurerm_container_group" "loader" {
 }
 
 resource "azurerm_container_group" "ui" {
-  name                = "myUI"
+  name                = lower(format("fmkb_ui_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
@@ -126,7 +143,7 @@ resource "azurerm_container_group" "ui" {
 }
 
 resource "azurerm_container_group" "maintenance" {
-  name                = "myMaintenance"
+  name                = lower(format("fmkb_maintenance_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
@@ -140,7 +157,7 @@ resource "azurerm_container_group" "maintenance" {
 }
 
 resource "azurerm_container_group" "rest" {
-  name                = "myRest"
+  name                = lower(format("fmkb_rest_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type             = "Linux"
