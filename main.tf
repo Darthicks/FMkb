@@ -1,7 +1,12 @@
-provider "azurerm" {
-  features {}
-  version = "=2.81.0"  # Specify the desired version here
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.81.0"  # Specify the desired version here
+    }
+  }
 }
+
 # Random number resource
 resource "random_string" "random" {
   length  = 5
