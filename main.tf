@@ -36,7 +36,7 @@ resource "azurerm_network_interface" "vm_nic" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = azurerm_virtual_network.vnet.subnet.id
+    subnet_id                     = azurerm_virtual_network.vnet.subnet[*].id
     private_ip_address_allocation = "Dynamic"
   }
 }
@@ -113,6 +113,7 @@ resource "azurerm_linux_function_app" "function_app" {
     linux_fx_version = "JAVA|8"  # Add the appropriate runtime here
   }
 }
+
 
 # Container Groups
 resource "azurerm_container_group" "loader" {
