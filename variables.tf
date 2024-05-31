@@ -1,70 +1,35 @@
 variable "environment" {
-  description = "Environment (Dev/Acc/Prod)"
+  description = "The environment for deployment"
   type        = string
 }
 
 variable "location" {
-  description = "Azure location"
+  description = "The Azure location for resources"
   type        = string
-}
-
-variable "random_number" {
-  description = "Random number for resource naming"
-  type        = string
-  default     = null
-}
-
-
-variable "rg_name" {
-  description = "Name of the resource group"
-  type        = string
-  default     = ""
-}
-
-variable "subnet_name" {
-  description = "Name of the subnet"
-  type        = string
-  default     = ""
-}
-
-variable "storage_account_name" {
-  description = "Name of the storage account"
-  type        = string
-  default     = ""
-}
-
-variable "blob_container_name" {
-  description = "Name of the blob container"
-  type        = string
-  default     = ""
 }
 
 variable "storage_account_access_key" {
-  description = "Access key for the storage account"
+  description = "The access key for the storage account"
   type        = string
-  default     = ""
+  sensitive   = true
 }
 
 variable "loader_image" {
-  description = "Docker image for loader container"
+  description = "The Docker image for the loader container"
   type        = string
-  default     = ""
 }
 
 variable "ui_image" {
-  description = "Docker image for UI container"
+  description = "The Docker image for the UI container"
   type        = string
-  default     = ""
 }
 
 variable "maintenance_image" {
-  description = "Docker image for maintenance container"
+  description = "The Docker image for the maintenance container"
   type        = string
-  default     = ""
 }
 
 variable "rest_image" {
-  description = "Docker image for rest container"
+  description = "The Docker image for the REST container"
   type        = string
-  default     = ""
 }
