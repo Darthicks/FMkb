@@ -100,7 +100,16 @@ resource "azurerm_storage_container" "blob_container" {
   container_access_type = "private"
 }
 
-# Function App
+# Define the Azure App Service Plan
+resource "azurerm_service_plan" "service_plan" {
+  name                = lower(format("fmkb_sp_%s_%s_%s", var.environment, random_string.random.result, var.location))
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  os_type             = "Linux"
+  sku_name            = "S1"
+}
+
+# Define the Azure Function App
 resource "azurerm_linux_function_app" "function_app" {
   name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location                   = azurerm_resource_group.rg.location
@@ -113,7 +122,6 @@ resource "azurerm_linux_function_app" "function_app" {
     linux_fx_version = "JAVA|8"  # Add the appropriate runtime here
   }
 }
-
 
 # Container Groups
 resource "azurerm_container_group" "loader" {
