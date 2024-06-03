@@ -178,21 +178,15 @@ resource "azurerm_service_plan" "service_plan" {
 }
 
 # Define the Azure Function App
-
-resource "azurerm_linux_function_app" "function_app" {
-
-  name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
-
-  location                   = azurerm_resource_group.rg.location
-
-  resource_group_name        = azurerm_resource_group.rg.name
-
-  service_plan_id            = azurerm_app_service_plan.service_plan.id
-
-  storage_account_name       = azurerm_storage_account.storage_account.name
-
-  storage_account_access_key = var.storage_account_access_key
-
+resource "azurerm_function_app" "function_app" {
+ name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
+ location                   = azurerm_resource_group.rg.location
+ resource_group_name        = azurerm_resource_group.rg.name
+ app_service_plan_id        = azurerm_app_service_plan.service_plan.id
+ storage_account_name       = azurerm_storage_account.storage_account.name
+ storage_account_access_key = azurerm_storage_account.storage_account.primary_access_key
+ os_type                    = "Linux"
+ runtime_stack              = "NODE|12-lts"
    app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE" = "1"
     "FUNCTIONS_WORKER_RUNTIME" = "java"
