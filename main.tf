@@ -152,6 +152,7 @@ ports {
       protocol = "TCP"
     }
 }
+}
 
 resource "azurerm_container_group" "ui" {
   name                = lower(format("fmkbui%s%s%s", var.environment, random_string.random.result, var.location))
@@ -171,7 +172,7 @@ ports {
       protocol = "TCP"
     }
 }
-
+}
 resource "azurerm_container_group" "maintenance" {
   name                = lower(format("fmkbmaintenance%s%s%s", var.environment, random_string.random.result, var.location))
   location            = "WestEurope"
@@ -190,7 +191,7 @@ ports {
       protocol = "TCP"
     }
 }
-
+}
 resource "azurerm_container_group" "rest" {
   name                = lower(format("fmkbrest%s%s%s", var.environment, random_string.random.result, var.location))
   location            = "WestEurope"
@@ -209,3 +210,6 @@ ports {
       protocol = "TCP"
     }
 }
+
+}
+
