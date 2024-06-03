@@ -1,7 +1,8 @@
 provider "azurerm" {
   features {}
-}
 
+  skip_provider_registration = true
+}
 # Random number resource
 resource "random_string" "random" {
   length  = 5
