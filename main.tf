@@ -112,6 +112,9 @@ resource "azurerm_linux_function_app" "function_app" {
     "WEBSITE_RUN_FROM_PACKAGE" = "1"
     "FUNCTIONS_WORKER_RUNTIME" = "java"
   }
+site_config {
+    always_on              = true
+  }
 }
 
 # Container Groups
