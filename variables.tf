@@ -111,3 +111,12 @@ variable "rest_image" {
   default     = ""
 
 }
+variable "port " {
+
+  description = "TCP HTTP Port
+
+  type        = string
+
+  default     = "80"
+
+}
