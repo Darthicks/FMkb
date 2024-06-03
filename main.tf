@@ -34,11 +34,6 @@ resource "azurerm_virtual_network" "vnet" {
   address_space       = ["10.0.0.0/16"]
   location            = "WestEurope"
   resource_group_name = "fmkb-rg-sbx02-rg"
-
-  subnet {
-    name           = lower(format("fmkbsubnet%s%s%s", var.environment, random_string.random.result, var.location))
-    address_prefix = "10.0.1.0/24"
-  }
 }
 # Subnet
 resource "azurerm_subnet" "subnet" {
