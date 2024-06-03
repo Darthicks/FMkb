@@ -3,21 +3,6 @@ provider "azurerm" {
 
   skip_provider_registration = true
 }
-terraform {
-
-  required_providers {
-
-    azurerm = {
-
-      source  = "hashicorp/azurerm"
-
-      version = "=2.81.0"  # Specify the desired version here
-
-    }
-
-  }
-
-}
 
 # Random number resource
 
