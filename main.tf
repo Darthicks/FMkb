@@ -161,25 +161,12 @@ resource "azurerm_storage_container" "blob_container" {
 }
 
 # Define the Azure App Service Plan
-
-resource "azurerm_app_service_plan" "service_plan" {
-
+resource "azurerm_service_plan" "service_plan" {
   name                = lower(format("fmkb_sp_%s_%s_%s", var.environment, random_string.random.result, var.location))
-
   location            = azurerm_resource_group.rg.location
-
   resource_group_name = azurerm_resource_group.rg.name
-
   os_type             = "Linux"
-
-  sku {
-
-    tier = "Standard"
-
-    size = "S1"
-
-  }
-
+  sku_name            = "S1"
 }
 
 # Define the Azure Function App
