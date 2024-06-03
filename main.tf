@@ -6,7 +6,7 @@ provider "azurerm" {
 terraform {
   required_providers {
     azurerm = {
-      source ="hashicorp/azurerm"
+      source ="hashicorp/azurerme
       version ="=3.1.0"
     }
   }
@@ -177,6 +177,7 @@ resource "azurerm_service_plan" "service_plan" {
   sku                  = "S1"
 }
 
+/*
 # Define the Azure Function App
 resource "azurerm_function_app" "function_app" {
  name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
@@ -195,7 +196,7 @@ site_config {
     always_on              = true
   }
 }
-
+*/
 # Container Groups
 
 resource "azurerm_container_group" "loader" {
