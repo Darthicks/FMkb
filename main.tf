@@ -207,8 +207,6 @@ site_config {
   }
 }
 
-}
-
 # Container Groups
 
 resource "azurerm_container_group" "loader" {
