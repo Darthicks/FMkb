@@ -111,7 +111,7 @@ variable "rest_image" {
   default     = ""
 
 }
-variable "port " {
+variable "port" {
 
   description = "TCP HTTP Port"
 
