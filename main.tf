@@ -20,18 +20,20 @@ resource "random_string" "random" {
   upper   = false
 }
 
+/*
 # Resource Group
 resource "azurerm_resource_group" "rg" {
   name     = lower(format("fmkb_rg_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location = var.location
 }
+*/
 
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = lower(format("fmkb_vnet_%s_%s_%s", var.environment, random_string.random.result, var.location))
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
 
   subnet {
     name           = lower(format("fmkb_subnet_%s_%s_%s", var.environment, random_string.random.result, var.location))
@@ -41,7 +43,7 @@ resource "azurerm_virtual_network" "vnet" {
 # Subnet
 resource "azurerm_subnet" "subnet" {
  name                 = lower(format("fmkb_subnet_%s_%s_%s", var.environment, random_string.random.result, var.location))
- resource_group_name  = azurerm_resource_group.rg.name
+ resource_group_name  = "fmkb-rg-sbx02-rg"
  virtual_network_name = azurerm_virtual_network.vnet.name
  address_prefixes     = ["10.0.1.0/24"]
 }
@@ -50,7 +52,7 @@ resource "azurerm_subnet" "subnet" {
 resource "azurerm_network_interface" "vm_nic" {
   name                = lower(format("fmkb_nic_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
 
   ip_configuration {
     name                          = "internal"
@@ -63,7 +65,7 @@ resource "azurerm_network_interface" "vm_nic" {
 resource "azurerm_virtual_machine" "vm" {
   name                  = lower(format("fmkb_vm_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location              = azurerm_resource_group.rg.location
-  resource_group_name   = azurerm_resource_group.rg.name
+  resource_group_name   = "fmkb-rg-sbx02-rg"
   network_interface_ids = [azurerm_network_interface.vm_nic.id]
   vm_size               = "Standard_DS1_v2"
 
@@ -95,7 +97,7 @@ resource "azurerm_virtual_machine" "vm" {
 # Storage Account
 resource "azurerm_storage_account" "storage_account" {
   name                     = lower(format("fmkbsa%s%s", var.environment, random_string.random.result)) # Max length 24 characters
-  resource_group_name      = azurerm_resource_group.rg.name
+  resource_group_name      = "fmkb-rg-sbx02-rg"
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -112,7 +114,7 @@ resource "azurerm_storage_container" "blob_container" {
 resource "azurerm_service_plan" "service_plan" {
   name                = lower(format("fmkb_sp_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
   os_type             = "Linux"
   sku_name            = "S1"
 }
@@ -122,7 +124,7 @@ resource "azurerm_service_plan" "service_plan" {
 resource "azurerm_linux_function_app" "function_app" {
   name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location                   = azurerm_resource_group.rg.location
-  resource_group_name        = azurerm_resource_group.rg.name
+  resource_group_name        = "fmkb-rg-sbx02-rg"
   service_plan_id            = azurerm_service_plan.service_plan.id
   storage_account_name       = azurerm_storage_account.storage_account.name
   storage_account_access_key = var.storage_account_access_key
@@ -140,7 +142,7 @@ site_config {
 resource "azurerm_container_group" "loader" {
   name                = lower(format("fmkb_loader_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
   os_type             = "Linux"
 
   container {
@@ -154,7 +156,7 @@ resource "azurerm_container_group" "loader" {
 resource "azurerm_container_group" "ui" {
   name                = lower(format("fmkb_ui_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
   os_type             = "Linux"
 
   container {
@@ -168,7 +170,7 @@ resource "azurerm_container_group" "ui" {
 resource "azurerm_container_group" "maintenance" {
   name                = lower(format("fmkb_maintenance_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
   os_type             = "Linux"
 
   container {
@@ -182,7 +184,7 @@ resource "azurerm_container_group" "maintenance" {
 resource "azurerm_container_group" "rest" {
   name                = lower(format("fmkb_rest_%s_%s_%s", var.environment, random_string.random.result, var.location))
   location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = "fmkb-rg-sbx02-rg"
   os_type             = "Linux"
 
   container {
