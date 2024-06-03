@@ -1,15 +1,22 @@
 provider "azurerm" {
   features {}
-#  skip_provider_registration = true
-}
 
+  skip_provider_registration = true
+}
 terraform {
+
   required_providers {
+
     azurerm = {
-      source ="hashicorp/azurerme
-      version ="=3.1.0"
+
+      source  = "hashicorp/azurerm"
+
+      version = "=2.81.0"  # Specify the desired version here
+
     }
+
   }
+
 }
 
 # Random number resource
@@ -169,14 +176,53 @@ resource "azurerm_storage_container" "blob_container" {
 }
 
 # Define the Azure App Service Plan
-resource "azurerm_service_plan" "service_plan" {
+
+resource "azurerm_app_service_plan" "service_plan" {
+
   name                = lower(format("fmkb_sp_%s_%s_%s", var.environment, random_string.random.result, var.location))
+
   location            = azurerm_resource_group.rg.location
+
   resource_group_name = azurerm_resource_group.rg.name
+
   os_type             = "Linux"
-  sku                  = "S1"
+
+  sku {
+
+    tier = "Standard"
+
+    size = "S1"
+
+  }
+
 }
 
+# Define the Azure Function App
+
+resource "azurerm_linux_function_app" "function_app" {
+
+  name                       = lower(format("fmkb_func_%s_%s_%s", var.environment, random_string.random.result, var.location))
+
+  location                   = azurerm_resource_group.rg.location
+
+  resource_group_name        = azurerm_resource_group.rg.name
+
+  service_plan_id            = azurerm_app_service_plan.service_plan.id
+
+  storage_account_name       = azurerm_storage_account.storage_account.name
+
+  storage_account_access_key = var.storage_account_access_key
+
+   app_settings = {
+    "WEBSITE_RUN_FROM_PACKAGE" = "1"
+    "FUNCTIONS_WORKER_RUNTIME" = "java"
+  }
+site_config {
+    always_on              = true
+  }
+}
+
+}
 
 # Container Groups
 
