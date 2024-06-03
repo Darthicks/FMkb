@@ -1,45 +1,114 @@
+[9:40 AM] Darthick Somu
 variable "environment" {
-  description = "The environment for deployment"
+
+  description = "Environment (Dev/Acc/Prod)"
+
   type        = string
+
 }
 
 variable "location" {
-  description = "The Azure location for resources"
+
+  description = "Azure location"
+
   type        = string
+
 }
 
-variable "storage_account_access_key" {
-  description = "The access key for the storage account"
-  type        = string
-  sensitive   = true
-}
+variable "random_number" {
 
-variable "loader_image" {
-  description = "The Docker image for the loader container"
-  type        = string
-}
+  description = "Random number for resource naming"
 
-variable "ui_image" {
-  description = "The Docker image for the UI container"
   type        = string
-}
 
-variable "maintenance_image" {
-  description = "The Docker image for the maintenance container"
-  type        = string
-}
-
-variable "rest_image" {
-  description = "The Docker image for the REST container"
-  type        = string
-}
-
-variable "subnet_name" {
-  description = "The name of the subnet"
-  type        = string
 }
 
 variable "rg_name" {
-  description = "The name of the resource group"
+
+  description = "Name of the resource group"
+
   type        = string
+
+  default     = ""
+
+}
+
+variable "subnet_name" {
+
+  description = "Name of the subnet"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "storage_account_name" {
+
+  description = "Name of the storage account"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "blob_container_name" {
+
+  description = "Name of the blob container"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "storage_account_access_key" {
+
+  description = "Access key for the storage account"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "loader_image" {
+
+  description = "Docker image for loader container"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "ui_image" {
+
+  description = "Docker image for UI container"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "maintenance_image" {
+
+  description = "Docker image for maintenance container"
+
+  type        = string
+
+  default     = ""
+
+}
+
+variable "rest_image" {
+
+  description = "Docker image for rest container"
+
+  type        = string
+
+  default     = ""
+
 }
