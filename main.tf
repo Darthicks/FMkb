@@ -146,7 +146,7 @@ resource "azurerm_container_group" "loader" {
     image  = var.loader_image
     cpu    = "0.5"
     memory = "1.5"
-  }
+  
 ports {
       port     = var.port
       protocol = "TCP"
@@ -165,7 +165,7 @@ resource "azurerm_container_group" "ui" {
     image  = var.ui_image
     cpu    = "0.5"
     memory = "1.5"
-  }
+  
 ports {
       port     = var.port
       protocol = "TCP"
@@ -184,7 +184,7 @@ resource "azurerm_container_group" "maintenance" {
     image  = var.maintenance_image
     cpu    = "0.5"
     memory = "1.5"
-  }
+  
 ports {
       port     = var.port
       protocol = "TCP"
@@ -203,7 +203,7 @@ resource "azurerm_container_group" "rest" {
     image  = var.rest_image
     cpu    = "0.5"
     memory = "1.5"
-  }
+  
 ports {
       port     = var.port
       protocol = "TCP"
