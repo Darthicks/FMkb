@@ -138,6 +138,7 @@ resource "azurerm_container_group" "loader" {
   name                = lower(format("fmkbloader%s%s%s", var.environment, random_string.random.result, var.location))
   location            = "WestEurope"
   resource_group_name = "fmkb-rg-sbx02-rg"
+  ip_address_type     = "Public"
   os_type             = "Linux"
 
   container {
@@ -146,12 +147,17 @@ resource "azurerm_container_group" "loader" {
     cpu    = "0.5"
     memory = "1.5"
   }
+ports {
+      port     = var.port
+      protocol = "TCP"
+    }
 }
 
 resource "azurerm_container_group" "ui" {
   name                = lower(format("fmkbui%s%s%s", var.environment, random_string.random.result, var.location))
   location            = "WestEurope"
   resource_group_name = "fmkb-rg-sbx02-rg"
+  ip_address_type     = "Public"
   os_type             = "Linux"
 
   container {
@@ -160,12 +166,17 @@ resource "azurerm_container_group" "ui" {
     cpu    = "0.5"
     memory = "1.5"
   }
+ports {
+      port     = var.port
+      protocol = "TCP"
+    }
 }
 
 resource "azurerm_container_group" "maintenance" {
   name                = lower(format("fmkbmaintenance%s%s%s", var.environment, random_string.random.result, var.location))
   location            = "WestEurope"
   resource_group_name = "fmkb-rg-sbx02-rg"
+  ip_address_type     = "Public"
   os_type             = "Linux"
 
   container {
@@ -174,12 +185,17 @@ resource "azurerm_container_group" "maintenance" {
     cpu    = "0.5"
     memory = "1.5"
   }
+ports {
+      port     = var.port
+      protocol = "TCP"
+    }
 }
 
 resource "azurerm_container_group" "rest" {
   name                = lower(format("fmkbrest%s%s%s", var.environment, random_string.random.result, var.location))
   location            = "WestEurope"
-  resource_group_name = "fmkb-rg-sbx02-rg"
+  resource_group_name = "fmkb-rg-sbx02-rg"  
+  ip_address_type     = "Public"
   os_type             = "Linux"
 
   container {
@@ -188,4 +204,8 @@ resource "azurerm_container_group" "rest" {
     cpu    = "0.5"
     memory = "1.5"
   }
+ports {
+      port     = var.port
+      protocol = "TCP"
+    }
 }
