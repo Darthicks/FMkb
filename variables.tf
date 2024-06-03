@@ -113,7 +113,7 @@ variable "rest_image" {
 }
 variable "port " {
 
-  description = "TCP HTTP Port
+  description = "TCP HTTP Port"
 
   type        = string
 
