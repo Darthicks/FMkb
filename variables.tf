@@ -1,4 +1,3 @@
-[9:40 AM] Darthick Somu
 variable "environment" {
 
   description = "Environment (Dev/Acc/Prod)"
